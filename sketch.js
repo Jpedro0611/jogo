@@ -31,7 +31,7 @@ function draw(){
 function keyboard(){
 if (keyDown (DOWN_ARROW) ){
   console.log(ervilhas.lenght)
-  if (ervilhas.lenght == 25 || ervilhas.lenght === undefined){
+  if (ervilhas.length == 25 || ervilhas.lenght === undefined){
   var p1 = createSprite(mouseX,mouseY,20,20);
   p1.addImage('p1',p1_img);
   p1.scale = 0.3;
