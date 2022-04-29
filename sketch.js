@@ -12,9 +12,11 @@ function setup(){ // todas as configuraçoes dos objetos
   girassol = createSprite(106,642,20,20);
   girassol.addImage('girassol',girassol_img);
   girassol.scale = 0.6
+
   p1 = createSprite(490,646,20,20);
   p1.addImage('p1',p1_img);
   p1.scale = 0.3
+
   ervilhas = new Group();
 }
 
@@ -29,22 +31,14 @@ function draw(){
 }
 
 function keyboard(){
-if (keyDown (DOWN_ARROW) ){
-  console.log(ervilhas.lenght)
-  if (ervilhas.lenght == 25 || ervilhas.lenght === undefined){
-  var p1 = createSprite(mouseX,mouseY,20,20);
-  p1.addImage('p1',p1_img);
-  p1.scale = 0.3;
-  ervilhas.add(p1);
-
-
+ if (keyDown (DOWN_ARROW) ){
+    console.log(ervilhas.lenght)
+    if (ervilhas.lenght == 25 || ervilhas.lenght === undefined){
+      var p1 = createSprite(mouseX,mouseY,20,20);
+      p1.addImage('p1',p1_img);
+      p1.scale = 0.3;
+      ervilhas.add(p1);
+    }
   }
-
-}
-
-
-
-
-
 }
 
