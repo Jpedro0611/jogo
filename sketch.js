@@ -1,7 +1,12 @@
 var bg, girassol,girassol_img,p1,p1_img;
 var ervilhas
-var solimg, gpsol, sol_score = 0;
+var solimg, gpsol, sol_score = 100;
 var zb1,zb2,zb3,zb4,zb5,zb6;
+var ervilhA;
+var shotgp;
+var countErv = 0;
+var life = 3;
+var cor;
 
 function preload(){ // função que carregar todas as imagens e animações
    bg = loadImage ("assets/bg2.png")
@@ -14,7 +19,7 @@ function preload(){ // função que carregar todas as imagens e animações
    zb4 = loadImage('assets/z4.png');
    zb5 = loadImage('assets/z5.png');
    zb6 = loadImage('assets/z6.png');
-
+  ervilhA = loadImage('assets/ervilha.png');
 }
 
 function setup(){ // todas as configuraçoes dos objetos
@@ -22,10 +27,13 @@ function setup(){ // todas as configuraçoes dos objetos
   girassol = createSprite(106,642,20,20);
   girassol.addImage('girassol',girassol_img);
   girassol.scale = 0.6
-
+  cor = createSprite(485,80,360,150)
+  cor.shapeColor = 'SaddleBrown'
+  
+  shotgp = new Group();
   ervilhas = new Group();
   gpsol = new Group();
-  
+  zbgp = new Group();
 }
 
 function draw(){
@@ -38,12 +46,38 @@ function draw(){
 
   textSize(20)
   text(sol_score, 64,149)
+  text(countErv, 168,143)
+  text(life, 260,143)
+
+  shotgp.isTouching(zbgp,destroyer)
+  ervilhas.isTouching(zbgp,Destroyer);
+
 
   keyboard();
   createsol();
   newscore();
   createzombie();
+  //ervilha();
 }
+
+function Destroyer (ervilha,zb){
+ervilha.destroy();
+life--;
+countErv--;
+}
+
+
+function destroyer (shot,zb) {
+shotgp.destroyEach();
+zb.destroy();
+
+
+
+
+
+
+}
+
 
 function keyboard(){
  if (keyDown (DOWN_ARROW) ){
@@ -52,6 +86,9 @@ function keyboard(){
       sol_score -= 100;
       p1.addImage('p1',p1_img);
       p1.scale = 0.3;
+     // p1.debug = true;
+      countErv ++;
+      p1.setCollider('circle',0,0,350);
       ervilhas.add(p1);
     }
   } 
@@ -65,6 +102,7 @@ function createsol(){ //cria o sol
   sol.addImage('sol',solimg);
   sol.scale = 1.2
   sol.velocityY = 2
+  sol.lifetime = 300;
   gpsol.add(sol);
   }
   
@@ -74,7 +112,7 @@ function createsol(){ //cria o sol
 function newscore(){ // aumenta a pontuação do sol
   for (var i = 0; i < gpsol.length; i++){
     if (mousePressedOver(gpsol.get(i))){
-      sol_score +=25;
+      sol_score +=50;
       gpsol.get(i).destroy();
       }
 
@@ -84,9 +122,9 @@ function newscore(){ // aumenta a pontuação do sol
 }
 
 function createzombie (){
-  if (frameCount%210 === 0){
+  if (frameCount%250 === 0){
   var zb 
-  zb = createSprite(1250,random(250,1050),20,20)
+  zb = createSprite(1250,random(250,450,1050),20,20)
   zb.velocityX = -1;
   var randy = Math.round(random(1,6));
   switch(randy){
@@ -104,9 +142,39 @@ function createzombie (){
     break 
   }
   zb.scale = 1.5
+  zb.lifetime = 1300;
+ // zb.debug = true;
+  zbgp.add(zb);
   }
   
 
 
 
 }
+
+function ervilha () {
+if (frameCount%60 === 0){
+  for(var i = 0; i < ervilhas.length; i ++){
+    var shot2 = ervilhas.get(i);
+    var shot;
+    shot = createSprite(shot2.x + 40,shot2.y - 30, 20, 20);
+    shot.velocityX = 2;
+    shot.addImage('tiro',ervilhA);
+    shot.scale = 2;
+    shot.lifetime = 600;
+    shotgp.add(shot);
+
+  }
+  
+
+}
+
+
+}
+
+// function ervilha (){
+// TE = createSprite(p1.x,p1.y,10,10);
+
+
+
+// }
